@@ -1,0 +1,12 @@
+<form>
+  <div ng-class="bad_user_creds()">
+    <label class="control-label" for="username">User name</label>
+    <input type="text" class="form-control" id="username" ng-model='login_user'>
+  </div>
+  <div ng-class="bad_user_creds()">
+    <label class="control-label" for="password">Password</label>
+    <input type="password" class="form-control" id="password" ng-model='login_pwd'>
+  </div>
+  <p ng-show="invalid_user_cred">Enter a valid user name / password</p>
+  <button type="button" class="btn btn-default" ng-click="validateuser()">Log in</button>
+</form>

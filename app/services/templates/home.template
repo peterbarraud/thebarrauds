@@ -1,0 +1,272 @@
+<?php
+$json = json_decode(file_get_contents('admin-ui/services/dataobjectserver/common/dbmetadata.json'), true);
+$mysqli = new mysqli(trim($json['dbserver']),trim($json['dbuser']),trim($json['dbpwd']),trim($json['dbname']));
+
+?>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>[[page-title]]</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- <div class="logo-band">
+      <img src="images/ufesm-emblem.png" class=logo-image alt="" />
+    </div> -->
+    <!-- top band - START -->
+    <div class="topband">
+      <div>
+        <img src="images/ufesm-emblem.png" alt="" />
+      </div>
+      <div>
+        <div><img src=''></div>
+        <div>
+          <div>
+            <div>United Front of Ex-Servicemen</div>
+            <div>G/F 128-H-2, Mohammad Pur, New Delhi - 110 066</div>
+          </div>
+          <div>
+            <img src='images/indian-army-emblem.ac7905a1.png'>
+            <img src='images/indian-airforce-emblem.7763c97f.png'>
+            <img src='images/indian-navy-emblem.a240fee9.png'>
+          </div>
+        </div>
+        <div><img src=''></div>
+      </div>
+    </div>
+    <!-- top band - END -->
+    <!-- navbar - START -->
+    <!--this container spans a width that is more than the navbar itself. in this case, 100% -->
+    <div class="nav-bar-container">
+      <!-- we will us this div to ensure the navbar spans a percentage of the page width -->
+      <div>
+        <div role="navigation"><!--nav bar - START -->
+          <ul>
+            <?php
+            if ($result = $mysqli->query('select id,position,level,title,pagename,parentid from menuitem order by position;')) {
+              $menutitles = array();
+              while ($row = $result->fetch_assoc()) {
+                if ($row['level'] == 0){
+                  $menuitems = $menutitles[$row['id']];
+                  if (is_null($menuitems)){
+                    $menuitems = array();
+                  }
+                  array_push($menuitems,$row);
+                  $menutitles[$row['id']] = $menuitems;
+                }
+                else {
+                  $menuitems = $menutitles[$row['parentid']];
+                  array_push($menuitems,$row);
+                  $menutitles[$row['parentid']] = $menuitems;
+                }
+              }
+              foreach ($menutitles as $titleid => $menuitems) {
+                if (sizeof($menuitems) == 1){
+                  $menuitem = $menuitems[0];
+                  echo '<li class="active"><a href="'. $menuitem['pagename'] . '">' . $menuitem['title'] . '</a></li>';
+                }
+                else {
+                  $menuitem = $menuitems[0];
+                  echo '<li>';
+                  echo '<a href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $menuitem['title'] . ' <span></span></a>';
+                  echo '<ul>';
+                  for ($i=1;$i<sizeof($menuitems);$i++){
+                    $menuitem = $menuitems[$i];
+                    echo '<li><a href="'. $menuitem['pagename'] . '">' . $menuitem['title'] . '</a></li>';
+
+                  }
+                  echo '</ul>';
+                  echo '</li>';
+                }
+              }
+            }
+            ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--nav bar - END -->
+    <!-- marquee - START -->
+    <div class="container-marquee">
+      <marquee>
+        <?php
+          if ($result = $mysqli->query('select title from tickeritem order by position')) {
+            while ($row = $result->fetch_assoc()) {
+              echo '<span>' . $row['title'] . '</span>';
+            }
+          }
+        ?>
+      </marquee>
+    </div>
+    <!-- marquee - END -->
+    <!-- carousel - START -->
+    <div class="container-carousel">
+      <div id="carousel-example-generic" class="carousel slide center-carousel" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+        </ol> <div class="carousel-inner" role="listbox">
+          <div class="item active"> <img src="images/title-img-01.668f1f4c.png" alt="...">
+            <!-- <div class="carousel-caption">
+                <h3>Speaking at the ...</h3>
+                <p>Making the speakers...</p>
+              </div> -->
+          </div>
+          <div class="item"> <img src="images/title-img-02.e24a34bb.png" alt="...">
+            <!-- <div class="carousel-caption">
+                <h3>Attendees at the ...</h3>
+                <p>Making the listeners...</p>
+              </div> -->
+          </div>
+          <div class="item"> <img src="images/title-img-03.6643fc17.png" alt="...">
+            <!-- <div class="carousel-caption">
+                <h3>Heading for slide 3...</h3>
+                <p>Text for slide 3...</p>
+              </div> -->
+          </div>
+          <div class="item"> <img src="images/title-img-04.beec2f82.png" alt="...">
+            <!-- <div class="carousel-caption">
+                <h3>Heading for slide 3...</h3>
+                <p>Text for slide 3...</p>
+              </div> -->
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <!-- carousel - END -->
+    <!--page content - START -->
+    <div class="page-content">
+      <div class="row">
+        <div class="col-xs-4 index-col">
+          <div>
+            <div>[[story-1-title]]</div>
+            <!-- <img class='big-index-img' src="images/gallery-image-01.150592e0.png" alt="" /> -->
+            <div>
+              [[story-1-content]]
+            </div>
+            <div>
+              <a class="" href="[[story-1-pagename]]" role="button">Read more <span></span></a>
+            </div>
+          </div>
+          <div>
+            <div>[[story-2-title]]</div>
+            <!-- <img class='big-index-img' src="images/gallery-image-01.150592e0.png" alt="" /> -->
+            <div>
+              [[story-2-content]]
+            </div>
+            <div>
+              <a class="" href="[[story-2-pagename]]" role="button">Read more <span></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-4 index-col">
+          <div>
+            <div>[[story-3-title]]</div>
+            <!-- <img class='big-index-img' src="images/gallery-image-01.150592e0.png" alt="" /> -->
+            <div>
+              [[story-3-content]]
+            </div>
+            <div>
+              <a class="" href="[[story-3-pagename]]" role="button">Read more <span></span></a>
+            </div>
+          </div>
+          <div>
+            <div>[[story-4-title]]</div>
+            <!-- <img class='big-index-img' src="images/gallery-image-01.150592e0.png" alt="" /> -->
+            <div>
+              [[story-4-content]]
+            </div>
+            <div>
+              <a class="" href="[[story-4-pagename]]" role="button">Read more <span></span></a>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-xs-4 index-col-last">
+          <div>
+            <div>Members' Corner</div>
+            <div>
+              <span></span><a href="[[members-corner-1-pagename]]">[[members-corner-1-pagename]]<span></span></a>
+            </div>
+            <div>
+              <span></span><a href="[[members-corner-2-pagename]]">[[members-corner-2-pagename]]<span></span></a>
+            </div>
+            <div>
+              <span></span><a href="[[members-corner-3-pagename]]">[[members-corner-3-pagename]]<span></span></a>
+            </div>
+          </div>
+        </div> -->
+    <!-- FOOTER nav bar - START -->
+    <div class="footer-container">
+      <div>  <!--col-4-->
+        <div>United Front of Ex-Servicemen</div>
+        <div>G/F 128-H-2</div>
+        <div>Mohammad Pur</div>
+        <div>New Delhi - 110 066</div>
+      </div>
+      <div>  <!--col-8-->
+        <table>
+          <tr>
+            <?php
+              $pagemenu = json_decode(file_get_contents('admin-ui/services/sitemenu.json'),true);
+              foreach ($pagemenu as $menutitle) {
+                echo "<td>";
+
+                if (sizeof($menutitle['items']) > 0) {
+                  echo $menutitle['title'];
+                  foreach ($menutitle['items'] as $menuitem) {
+                    echo '<div><a href="'. $menuitem['pagename'] . '">' . $menuitem['title'] . '</a></div>';
+                  }
+                }
+                else {
+                  echo '<a href="'. $menutitle['pagename'] . '">' . $menutitle['title'] . '</a>';
+                }
+                echo "</td>";
+              }
+            ?>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+    <!-- FOOTER nav bar - END -->
+
+
+
+
+
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <script src="scripts/vendor.223d857b.js"></script>
+
+
+</body>
+</html>

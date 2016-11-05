@@ -1,0 +1,5 @@
+create table if not exists page (id int unsigned NOT NULL AUTO_INCREMENT, title varchar (256), url varchar (256), createdate datetime , modifieddate datetime , publishdate datetime , primary key(id)) ENGINE=InnoDB;
+create table if not exists pagefragment (id bigint unsigned NOT NULL AUTO_INCREMENT, title varchar (50), html text , position tinyint , primary key(id)) ENGINE=InnoDB;
+create table if not exists fragmenttype (id tinyint unsigned NOT NULL AUTO_INCREMENT, title varchar (50), html text , primary key(id)) ENGINE=InnoDB;
+create table if not exists loginuser (id tinyint unsigned NOT NULL AUTO_INCREMENT, first_name varchar (50), last_name varchar (50), user_name varchar (50), password varchar (50), primary key(id)) ENGINE=InnoDB;
+create table if not exists page_map_pagefragment (id bigint unsigned NOT NULL AUTO_INCREMENT,pageid int unsigned NOT NULL,pagefragmentid bigint unsigned NOT NULL,FOREIGN KEY (`pageid`) REFERENCES `page` (`id`),FOREIGN KEY (`pagefragmentid`) REFERENCES `pagefragment` (`id`), primary key (id)) ENGINE=InnoDB;
