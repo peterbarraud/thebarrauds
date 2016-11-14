@@ -41,10 +41,21 @@ angular.module('thebarraudsApp')
         });
     },
 
+    getpagelist: function(scope,callback){
+      $http.get(util.restAPIURL($location) + 'getpagelist/').
+      success(function(data) {
+        scope[callback](data);
+        }).
+      error(function(data) {
+        console.log(data);
+        });
+
+    },
+
     //we are going to use scope callbacks to handle multiple directive calls to identical factory methods
     //the specific directive functionality should be handled in the directive itselt. not in the factory. (mostly thanks to Ed Seckler)
     getitem : function(itemid,itemtype,scope,callback) {
-      $http.get(util.restAPIURL($location) + itemtype + '/' + itemid).
+      $http.get(util.restAPIURL($location) + 'getitem/' + itemtype + '/' + itemid).
       success(function(data) {
         scope[callback](data);
         }).

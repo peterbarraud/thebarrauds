@@ -32,6 +32,17 @@
 		allow_cross_domain_calls();
 		echo json_encode($itemdetails);
 	});
+
+	$app->get('/getpagelist/',function(){
+		require_once 'dataobjectserver/application.php';
+		$application = Application::getinstance();
+		$sortby['createdate'] = 'desc';
+		$items = $application->GetObjectsByClassName('page',$sortby);
+		allow_cross_domain_calls();
+		echo json_encode($items);
+
+	});
+
 	$app->get('/getitems/:itemtype/',function($itemtype) {
 		require_once 'dataobjectserver/application.php';
 		$application = Application::getinstance();

@@ -26,7 +26,7 @@
 				</field>
 			</fields>
 		</table>
-		<table name='pagefragment' id_type='bigint'>
+		<table name='pagefragment' id_type='int'>
 			<fields>
 				<field>
 					<name>title</name>
@@ -51,8 +51,9 @@
 					<size>50</size>
 				</field>
 				<field>
-					<name>html</name>
-					<type>text</type>
+					<name>name</name>
+					<type>varchar</type>
+					<size>20</size>
 				</field>
 			</fields>
 		</table>
@@ -80,12 +81,74 @@
 				</field>
 			</fields>
 		</table>
+		<table name="pagetemplate" id_type='tinyint'>
+			<fields>
+				<field>
+					<name>title</name>
+					<type>varchar</type>
+					<size>50</size>
+				</field>
+				<field>
+					<name>html</name>
+					<type>text</type>
+				</field>
+			</fields>
+		</table>
 	</tables>
 	<relatedtables>
 		<relation parent='page'>
 				<children>
 					<table>pagefragment</table>
 				</children>
+				<children>
+					<table>pagetemplate</table>
+				</children>
+		</relation>
+		<relation parent="pagefragment">
+				<children>
+					<table>fragmenttype</table>
+				</children>
 		</relation>
 	</relatedtables>
+	<tabledata>
+		<!-- datasetup = reset|append -->
+		<table name="pagetemplate" datasetup='reset'>
+			<fields>
+				<field>title</field>
+				<field>html</field>
+			</fields>
+			<values>
+				<value>'Blog post'</value>
+				<value>'html - blog post'</value>
+			</values>
+			<values>
+				<value>'Blog post 2'</value>
+				<value>'html - blog post 2'</value>
+			</values>
+		</table>
+		<table name="loginuser" datasetup='reset'>
+			<fields>
+				<field>first_name</field>
+				<field>last_name</field>
+				<field>user_name</field>
+				<field>password</field>
+			</fields>
+			<values>
+				<value>'Poker'</value>
+				<value>'John'</value>
+				<value>'poker'</value>
+				<value>'john'</value>
+			</values>
+		</table>
+		<table name="fragmenttype" datasetup='reset'>
+			<fields>
+				<field>title</field>
+				<field>name</field>
+			</fields>
+			<values>
+				<value>'Rich Text'</value>
+				<value>'richText'</value>
+			</values>
+		</table>
+	</tabledata>
 </db>
