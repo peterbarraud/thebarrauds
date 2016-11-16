@@ -185,7 +185,17 @@ angular.module('thebarraudsApp')
         console.log(data);
       });
     },
-
+    // we need a specific delete page function because we're not going to actually delete the data
+    // we're going to only mark it for delete
+    deletepage : function(pageid,scope,callback) {
+      $http.get(util.restAPIURL($location) + 'deletepage/' + pageid).
+      success(function(data) {
+        scope[callback](data);
+        }).
+      error(function(data) {
+        console.log(data);
+        });
+    },
     deleteitem : function(itemid,itemtype,scope,callback) {
       $http.get(util.restAPIURL($location) + 'deleteitem/' + itemtype + '/' + itemid).
       success(function(data) {

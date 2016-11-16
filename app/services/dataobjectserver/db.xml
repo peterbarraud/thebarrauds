@@ -24,6 +24,11 @@
 					<name>publishdate</name>
 					<type>datetime</type>
 				</field>
+				<field>
+					<name>markfordelete</name>
+					<type>char</type>
+					<size>1</size>
+				</field>
 			</fields>
 		</table>
 		<table name='pagefragment' id_type='int'>

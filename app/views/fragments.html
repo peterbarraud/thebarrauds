@@ -1,25 +1,26 @@
 <div class="row">
   <div class="col-md-3 col-md-offset-3">
     <div class="btn-group-xs" role="group" aria-label="...">
-      <button type="button" class="btn btn-default" ng-click="openpagepropertiesmodal()">New</button>
-      <button type="button" class="btn btn-default">Delete</button>
-      <button type="button" class="btn btn-default">Edit</button>
+      <button type="button" class="btn btn-default" ng-click="pagepropertiesdir.newpage()">New</button>
+      <button type="button" class="btn btn-default" ng-click="deletepage()" ng-disabled="!pageavailable()">Delete</button>
+      <button type="button" class="btn btn-default" ng-click="pagepropertiesdir.editpage()" ng-disabled="!pageavailable()">Edit</button>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-3">
-    <page-list pagadata=pagedata></page-list>
+    <page-list listitemdata="listitemdata" pagelistdirective="pagelistdirective"></page-list>
   </div>
   <div class="col-md-8">
-    <div class="row" ng-if="pagedata">
+    <div class="row" ng-if="pageavailable()">
+      <h1>{{pagepropertiesdata.title}}</h1>
       <table class="table table-bordered">
-        <tr ng-show="true">
+        <tr>
           <td>
             <button type="button" class="btn btn-primary btn-sm" ng-click="newfragment()">Get started by adding your first fragment to the page</button>
           </td>
         </tr>
-        <tr ng-repeat="pagefragment in pagedata.pagefragment">
+        <tr ng-repeat="pagefragment in pagepropertiesdata.pagefragment">
           <td>
             <div class="row">
               <div class="col-md-10">
@@ -52,11 +53,32 @@
   </div>
 </div>
 
-<pageproperties-modal pagepropertiesdir="pagepropertiesdir" pagedata=pagedata></pageproperties-modal>
+<pageproperties-modal pagepropertiesdir="pagepropertiesdir" pagepropertiesdata="pagepropertiesdata" pagepropertychanged="pagepropertychanged()"></pageproperties-modal>
 <div class="modal fade" id="addfragmentsModal" tabindex="-1" role="dialog" aria-labelledby="addfragmentsModal"  data-target="#addfragmentsModal">
   <addfragments-modal fragmenttypes="fragmenttypes" closeaddfragmentsmodal="closeaddfragmentsmodal()" fragmenttype=fragmenttype></addfragments-modal>
 </div>
 
 <div class="modal fade" id="richtextModal" tabindex="-1" role="dialog" aria-labelledby="richtextModal"  data-target="#richtextModal">
   <rich-text></rich-text>
+</div>
+
+<div class="modal fade" id="deletePagePrompt" tabindex="-1" role="dialog" aria-labelledby="deletePagePrompt"  data-target="#deletePagePrompt">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete page</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete page <b>{{pagepropertiesdata.title}}</b>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" ng-click="deletepageconfirmed()">Yes</button>
+      </div>
+    </div>
+  </div>
+
 </div>

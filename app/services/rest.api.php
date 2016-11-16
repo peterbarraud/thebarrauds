@@ -134,6 +134,14 @@
 		allow_cross_domain_calls();
 		echo json_encode($pageitemcollection);
 	});
+	$app->get('/deletepage/:itemid/',function($pageid) {
+		require_once 'dataobjectserver/application.php';
+		$application = Application::getinstance();
+		$page = $application->GetObjectById('page',$pageid);
+		$page->Delete();
+		allow_cross_domain_calls();
+		echo json_encode($page);
+	});
 	$app->get('/deleteitem/:itemtype/:itemid/',function($itemtype,$itemid) {
 		require_once 'dataobjectserver/application.php';
 		$application = Application::getinstance();

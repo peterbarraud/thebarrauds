@@ -11,7 +11,8 @@ angular.module('thebarraudsApp')
     return {
       restrict: 'E',
       scope: {
-        pagedata: '=',
+        listitemdata: '=',
+        pagelistdirective: '=',
       },
       replace:true,
       templateUrl: 'views/pageList.html',
@@ -20,12 +21,16 @@ angular.module('thebarraudsApp')
       link: function(scope) {
         serverFactory.getpagelist(scope,'managepagelist');
         scope.managepagelist = function(data){
-          scope.pages = data;
+          scope.pages = data.Items;
         };
         scope.pageselect = function(page){
-          console.log(page);
-          scope.pagedata = page;
+          scope.listitemdata = page;
         };
+        scope.pagelistdirective = {
+          pagelistupdated: function(){
+            serverFactory.getpagelist(scope,'managepagelist');
+          },
+        }
 
 
       }

@@ -9,11 +9,11 @@
         <form>
           <div class="form-group">
             <label for="pagetitle">Title</label>
-            <input type="text" class="form-control" id="pagetitle" placeholder="Page title" ng-model="pagedata.title">
+            <input type="text" class="form-control" id="pagetitle" placeholder="Page title" ng-model="pagepropertiesdata.title">
           </div>
           <div class="form-group">
             <label for="pageurl">Page Url</label>
-            <input type="text" class="form-control" id="pageurl" placeholder="Page Url" ng-model="pagedata.url">
+            <input type="text" class="form-control" id="pageurl" placeholder="Page Url" ng-model="pagepropertiesdata.url">
           </div>
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -21,7 +21,7 @@
             </div>
             <div class="panel-body">
               <div class="list-group">
-                <a href="" class="list-group-item" ng-repeat="pagetemplate in pagetemplates.Items" ng-click='selectpagetemplate(pagetemplate)'>{{pagetemplate.title}}</a>
+                <a href="" class="list-group-item" ng-repeat="pagetemplate in pagetemplates" ng-click='selectpagetemplate(pagetemplate)'>{{pagetemplate.title}}</a>
               </div>
             </div>
           </div>

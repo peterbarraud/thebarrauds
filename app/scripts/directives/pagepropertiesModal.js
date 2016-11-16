@@ -11,8 +11,9 @@ angular.module('thebarraudsApp')
     return {
       restrict: 'E',
       scope: {
-        pagedata: '=',
+        pagepropertiesdata: '=',
         pagepropertiesdir: '=',
+        pagepropertychanged: '&',
       },
       replace:true,
       templateUrl: 'views/pagepropertiesModal.html',
@@ -21,46 +22,49 @@ angular.module('thebarraudsApp')
       link: function(scope) {
         serverFactory.getitems('pagetemplate',scope,'managepagetemplates');
         scope.managepagetemplates = function(data){
-          scope.pagetemplates = data;
+          scope.pagetemplates = data.Items;
         };
 
         scope.pagepropertiesdir = {
-          openpagepropertiesmodal: function(){
-            scope.newpage();
+          newpage: function(){
+            serverFactory.getitem(-1,'page',scope,'managenewitemobject');
           },
-        };
-        scope.newpage = function(){
-          serverFactory.getitem(-1,'page',scope,'managenewitemobject');
+          editpage: function(){
+            $("#newpageModal").modal('show');
+          }
         };
         scope.managenewitemobject = function(data){
-          scope.pagedata = data;
+          scope.pagepropertiesdata = data;
           $("#newpageModal").modal('show');
         };
 
         scope.destroypagedata = function(){
-          scope.pagedata = null;
+          scope.pagepropertiesdata = null;
         };
         scope.savepageproperties = function(){
           var allgood = true;
-          if (util.isEmptyString(scope.pagedata.title)){
+          if (util.isEmptyString(scope.pagepropertiesdata.title)){
             scope.err_msg = "Page title cannot be empty";
             allgood = false;
           }
-          if (scope.pagedata.pagetemplate.length !== 1){
+          if (scope.pagepropertiesdata.pagetemplate.length !== 1){
             scope.err_msg = "You must select a Page template";
             allgood = false;
           }
           if (allgood){
-            serverFactory.saveitemdetails(scope,scope.pagedata,"page","itemDetailsSaved");
+            serverFactory.saveitemdetails(scope,scope.pagepropertiesdata,"page","itemDetailsSaved");
           }
         };
         scope.itemDetailsSaved = function(data){
           console.log(data);
+          scope.pagepropertiesdata = data;
           $("#newpageModal").modal('hide');
+          // call this controller event to handle when page property was changed
+          scope.pagepropertychanged();
         };
         scope.selectpagetemplate = function(pagetemplate){
-          scope.pagedata.pagetemplate = [];
-          scope.pagedata.pagetemplate.push(pagetemplate);
+          scope.pagepropertiesdata.pagetemplate = [];
+          scope.pagepropertiesdata.pagetemplate.push(pagetemplate);
         };
 
       }

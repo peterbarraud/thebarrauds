@@ -8,5 +8,9 @@ class page extends objectbase {
     $this->modifieddate = 'now()';
     objectbase::Save();
   }
+  public function Delete(){
+    $this->markfordelete = 1;
+    $this->Save();
+  }
 }
 ?>
