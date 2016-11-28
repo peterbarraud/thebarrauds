@@ -7,29 +7,51 @@
  * # eventPod
  */
 angular.module('thebarraudsApp')
-  .directive('addfragmentsModal', function (serverFactory,util) {
+  .directive('addfragmentsModal', function (serverFactory/*,util*/) {
     return {
       restrict: 'E',
       replace:true,
       scope: {
-        fragmenttypes: '=',
-        fragmenttype: '=',
-        closeaddfragmentsmodal: '&',
+        addfragmentsdir: '=',
+        addfragmenttopage: '&',
       },
       templateUrl: 'views/addfragmentsModal.html',
-      link: function(scope, elem, attrs) {
-        scope.addnewfragment = function(){
-          if (scope.fragmenttype === null){
+      link: function(scope/*, elem, attrs*/) {
+        scope.addfragmentsdir = {
+          newfragment: function(){
+            scope.fragmenttype = null;
+            serverFactory.getitems('fragmenttype',scope,'openaddfragmentsModal');
+          },
+        };
+        scope.openaddfragmentsModal = function(data){
+          scope.fragmenttypes = data.Items;
+          $("#addfragmentsModal").modal('show');
+        };
+        scope.selectFragmentType = function(fragmenttype){
+          scope.selectedfragmenttype = fragmenttype;
+          console.log(scope.selectedfragmenttype);
+        };
+        scope.savechanges = function(){
+          if (scope.selectedfragmenttype === null){
             scope.err_msg = "Please select a Fragment";
           }
           else{
-            scope.closeaddfragmentsmodal();
+            console.log(scope.selectedfragmenttype);
+            serverFactory.getitem(scope.selectedfragmenttype.id,'pagefragment',scope,'pagefragmentgot');
+            // first save the page fragment and then save the fragment to page
+            // serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"pagefragment","pagefragmentsaved");
           }
         };
-        scope.selectFragmentType = function(fragmentname){
-          scope.fragmenttype = fragmentname;
-        };
-
+        scope.pagefragmentgot = function (data){
+          var pagefragmentData = data;
+          pagefragmentData.title = scope.selectedfragmenttype.title;
+          pagefragmentData.fragmenttype.push(scope.selectedfragmenttype);
+          serverFactory.saveitemdetails(scope,pagefragmentData,"pagefragment","pagefragmentsaved");
+        }
+        scope.pagefragmentsaved = function(data){
+          scope.addfragmenttopage(data);
+          $("#addfragmentsModal").modal('hide');
+        }
       }
     };
   });

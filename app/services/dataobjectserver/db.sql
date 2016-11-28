@@ -1,3 +1,6 @@
+drop database thebarrauds;
+create database thebarrauds;
+use thebarrauds;
 create table if not exists page (id int unsigned NOT NULL AUTO_INCREMENT, title varchar (256), url varchar (256), createdate datetime , modifieddate datetime , publishdate datetime , markfordelete char (1), primary key(id)) ENGINE=InnoDB;
 create table if not exists pagefragment (id int unsigned NOT NULL AUTO_INCREMENT, title varchar (50), html text , position tinyint , primary key(id)) ENGINE=InnoDB;
 create table if not exists fragmenttype (id tinyint unsigned NOT NULL AUTO_INCREMENT, title varchar (50), name varchar (20), primary key(id)) ENGINE=InnoDB;

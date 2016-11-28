@@ -7,16 +7,13 @@
  * # eventPod
  */
 angular.module('thebarraudsApp')
-  .directive('pageList', function (serverFactory) {
+  .directive('fragmentContainer', function ($compile,serverFactory) {
     return {
-      restrict: 'E',
-      scope: {
-        listitemdata: '=',
-        pagelistdirective: '=',
-      },
-      replace:true,
-      templateUrl: 'views/pageList.html',
+      restrict: 'A',
+      templateUrl: 'views/fragmentcontainer.html',
       link: function(scope, elem, attrs) {
+        var el = $compile( "<b>poker</b>" )( scope );
+        elem.parent().append( el );
         serverFactory.getpagelist(scope,'managepagelist');
         scope.managepagelist = function(data){
           scope.pages = data.Items;

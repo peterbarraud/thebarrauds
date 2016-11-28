@@ -49,45 +49,22 @@
         </tr>
         <tr ng-repeat="pagefragment in pagepropertiesdata.pagefragment">
           <td>
-            <div class="row">
-              <div class="col-md-10">
-
-              </div>
-              <div class="col-md-1">
-                <div class="btn-group">
-                  <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Do <span class="caret"></span>
-                    </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" ng-click="newfragment()">Edit</a></li>
-                    <li><a href="#">Delete</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Move up</a></li>
-                    <li><a href="#">Move down</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Add before</a></li>
-                    <li><a href="#">Add after</a></li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-
+            <fragment-container></fragment-container>
           </td>
         </tr>
       </table>
     </div>
   </div>
 </div>
-
+<!-- property pages modal directive -->
 <pageproperties-modal pagepropertiesdir="pagepropertiesdir" pagepropertiesdata="pagepropertiesdata" pagepropertychanged="pagepropertychanged()"></pageproperties-modal>
-<div class="modal fade" id="addfragmentsModal" tabindex="-1" role="dialog" aria-labelledby="addfragmentsModal"  data-target="#addfragmentsModal">
-  <addfragments-modal fragmenttypes="fragmenttypes" closeaddfragmentsmodal="closeaddfragmentsmodal()" fragmenttype=fragmenttype></addfragments-modal>
-</div>
 
-<div class="modal fade" id="richtextModal" tabindex="-1" role="dialog" aria-labelledby="richtextModal"  data-target="#richtextModal">
-  <rich-text></rich-text>
-</div>
+<!-- add fragments modal directive -->
+<addfragments-modal addfragmentsdir="addfragmentsdir" addfragmenttopage="addfragmenttopage(pagefragment)"></addfragments-modal>
+
+
+<rich-text></rich-text>
+
 
 <div class="modal fade" id="deletePagePrompt" tabindex="-1" role="dialog" aria-labelledby="deletePagePrompt"  data-target="#deletePagePrompt">
   <div class="modal-dialog modal-sm" role="document">

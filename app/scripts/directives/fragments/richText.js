@@ -7,11 +7,11 @@
  * # eventPod
  */
 angular.module('thebarraudsApp')
-  .directive('richText', function (serverFactory,util) {
+  .directive('richtextDisplay', function (serverFactory,util) {
     return {
       restrict: 'E',
       replace:true,
-      templateUrl: 'views/fragments/richText.html',
+      templateUrl: 'views/fragments/richtextDisplay.html',
       link: function(scope, elem, attrs) {
 
       }

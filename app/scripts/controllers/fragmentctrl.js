@@ -1,4 +1,3 @@
-/*globals $:false */
 'use strict';
 
 /**
@@ -12,6 +11,7 @@ angular.module('thebarraudsApp')
   .controller('FragmentCtrl', ['$scope','serverFactory', function($scope,serverFactory) {
     $scope.pagepropertiesdata = null;
     $scope.listitemdata = null;
+    $scope.selectedfragmenttypeid = -1;
 
     $scope.pageavailable = function(){
       if ($scope.pagepropertiesdata === null){
@@ -35,28 +35,37 @@ angular.module('thebarraudsApp')
     $scope.pagedeleted = function(){
       $("#deletePagePrompt").modal('hide');
       $scope.pagelistdirective.pagelistupdated();
-    }
-    // itemtype,scope,callback
-    $scope.newfragment = function(){
-      // reset fragment type
-      $scope.fragmenttype = null;
-      serverFactory.getitems('fragmenttype',$scope,'openaddfragmentsModal');
-    };
-    $scope.openaddfragmentsModal = function(data){
-      $scope.fragmenttypes = data.Items;
-      $("#addfragmentsModal").modal('show');
     };
     // this function is called after the page properties are changed in the page properties dialog
     $scope.pagepropertychanged = function(){
       $scope.pagelistdirective.pagelistupdated();
     };
-    $scope.$watch('listitemdata', function(newValue, oldValue) {
-      if (newValue != null){
+    $scope.$watch('listitemdata', function(newValue) {
+      if (newValue !== null){
         serverFactory.getitem(newValue.id,'page',$scope,'manageitemobject');
       }
     });
     $scope.manageitemobject = function(data){
       $scope.pagepropertiesdata = data;
-    }
+    };
+    $scope.newfragment = function(){
+      // this will be used to position the fragement in the page
+      $scope.fragementplace = {
+        currentfragmentid: -1,
+        // a: after
+        // b: before
+        relatedplacement: 'a',
+      };
+      $scope.addfragmentsdir.newfragment();
+    };
+    $scope.addfragmenttopage = function(pagefragmentData){
+      $scope.pagepropertiesdata.pagefragment.push(pagefragmentData);
+      console.log($scope.pagepropertiesdata);
+      // then save
+      serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"page","itemDetailsSaved");
+    };
+    $scope.itemDetailsSaved = function(data){
+      console.log(data);
+    };
 
   }]);

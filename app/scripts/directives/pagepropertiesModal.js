@@ -17,9 +17,7 @@ angular.module('thebarraudsApp')
       },
       replace:true,
       templateUrl: 'views/pagepropertiesModal.html',
-      // uncomment next line and remove following if you need the args
-      // link: function(scope, elem, attrs) {
-      link: function(scope) {
+      link: function(scope/*, elem, attrs*/) {
         serverFactory.getitems('pagetemplate',scope,'managepagetemplates');
         scope.managepagetemplates = function(data){
           scope.pagetemplates = data.Items;
