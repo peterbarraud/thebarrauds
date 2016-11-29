@@ -35,33 +35,33 @@ angular.module('thebarraudsApp')
       $("#deletePagePrompt").modal('hide');
       $scope.pagelistdirective.pagelistupdated();
     };
+
     // this function is called after the page properties are changed in the page properties dialog
     $scope.pagepropertychanged = function(){
       $scope.pagelistdirective.pagelistupdated();
     };
+
     $scope.$watch('listitemdata', function(newValue) {
       if (newValue !== null){
         serverFactory.getitem(newValue.id,'page',$scope,'manageitemobject');
       }
     });
+
     $scope.manageitemobject = function(data){
       $scope.pagepropertiesdata = data;
     };
-    $scope.newfragment = function(){
-      // this will be used to position the fragement in the page
-      $scope.fragementplace = {
-        currentfragmentid: -1,
-        // a: after
-        // b: before
-        relatedplacement: 'a',
-      };
+
+    $scope.newfragment = function(currentfragmentpos,newfragmentrelatedpos){
+      $scope.addfragmentsdir.currentfragmentpos = currentfragmentpos;
+      $scope.addfragmentsdir.newfragmentrelatedpos = newfragmentrelatedpos;
       $scope.addfragmentsdir.newfragment();
     };
+
     $scope.addfragmenttopage = function(selectedpagefragment){
       $scope.pagepropertiesdata.pagefragment.push(selectedpagefragment);
-      // then save
       serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"page","itemDetailsSaved");
     };
+
     $scope.itemDetailsSaved = function(data){
       console.log(data);
     };

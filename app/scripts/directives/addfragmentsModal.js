@@ -17,7 +17,14 @@ angular.module('thebarraudsApp')
       },
       templateUrl: 'views/addfragmentsModal.html',
       link: function(scope/*, elem, attrs*/) {
+        // Interface to the addfragmentsModal
+        // newfragmentrelatedplacement
+        // possible values
+        // a: after
+        // b: before
         scope.addfragmentsdir = {
+          currentfragmentpos: -1,
+          newfragmentrelatedpos: 'a',
           newfragment: function(){
             scope.fragmenttype = null;
             serverFactory.getitems('fragmenttype',scope,'openaddfragmentsModal');
@@ -35,17 +42,21 @@ angular.module('thebarraudsApp')
             scope.err_msg = "Please select a Fragment";
           }
           else{
-            serverFactory.getitem(scope.selectedfragmenttype.id,'pagefragment',scope,'pagefragmentgot');
+            // create a new pagefragment for this page
+            serverFactory.getitem(-1,'pagefragment',scope,'pagefragmentgot');
             // first save the page fragment and then save the fragment to page
             // serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"pagefragment","pagefragmentsaved");
           }
         };
         scope.pagefragmentgot = function (data){
           var pagefragmentData = data;
+          var newfragmentpos = scope.addfragmentsdir.newfragmentrelatedpos === 'a' ? scope.addfragmentsdir.currentfragmentpos + 1 : scope.addfragmentsdir.currentfragmentpos;
+          pagefragmentData.position = newfragmentpos;
           pagefragmentData.title = scope.selectedfragmenttype.title;
           pagefragmentData.fragmenttype.push(scope.selectedfragmenttype);
           serverFactory.saveitemdetails(scope,pagefragmentData,"pagefragment","pagefragmentsaved");
-        }
+        };
+
         scope.pagefragmentsaved = function(data){
           scope.addfragmenttopage({selectedpagefragment:data});
           $("#addfragmentsModal").modal('hide');

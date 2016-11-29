@@ -42,14 +42,13 @@
     <div class="row" ng-if="pageavailable()">
       <h1>{{pagepropertiesdata.title}}</h1>
       <table class="table table-bordered">
-        <tr>
+        <tr ng-if="pagepropertiesdata.pagefragment.length === 0">
           <td>
-            <button type="button" class="btn btn-primary btn-sm" ng-click="newfragment()">Get started by adding your first fragment to the page</button>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="newfragment(-1,'a')">Get started by adding your first fragment to the page</button>
           </td>
         </tr>
         <tr ng-repeat="pagefragment in pagepropertiesdata.pagefragment">
-          <td>
-            <fragment-container></fragment-container>
+          <td fragment-container fragmentpos="pagefragment.position">
           </td>
         </tr>
       </table>

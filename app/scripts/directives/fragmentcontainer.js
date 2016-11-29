@@ -13,7 +13,7 @@ angular.module('thebarraudsApp')
       templateUrl: 'views/fragmentcontainer.html',
       link: function(scope, elem, attrs) {
         var el = $compile( "<b>poker</b>" )( scope );
-        elem.parent().append( el );
+        elem.append( el );
         serverFactory.getpagelist(scope,'managepagelist');
         scope.managepagelist = function(data){
           scope.pages = data.Items;
