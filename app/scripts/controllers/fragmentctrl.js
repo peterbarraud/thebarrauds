@@ -11,7 +11,6 @@ angular.module('thebarraudsApp')
   .controller('FragmentCtrl', ['$scope','serverFactory', function($scope,serverFactory) {
     $scope.pagepropertiesdata = null;
     $scope.listitemdata = null;
-    $scope.selectedfragmenttypeid = -1;
 
     $scope.pageavailable = function(){
       if ($scope.pagepropertiesdata === null){
@@ -58,9 +57,8 @@ angular.module('thebarraudsApp')
       };
       $scope.addfragmentsdir.newfragment();
     };
-    $scope.addfragmenttopage = function(pagefragmentData){
-      $scope.pagepropertiesdata.pagefragment.push(pagefragmentData);
-      console.log($scope.pagepropertiesdata);
+    $scope.addfragmenttopage = function(selectedpagefragment){
+      $scope.pagepropertiesdata.pagefragment.push(selectedpagefragment);
       // then save
       serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"page","itemDetailsSaved");
     };

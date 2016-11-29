@@ -29,14 +29,12 @@ angular.module('thebarraudsApp')
         };
         scope.selectFragmentType = function(fragmenttype){
           scope.selectedfragmenttype = fragmenttype;
-          console.log(scope.selectedfragmenttype);
         };
         scope.savechanges = function(){
           if (scope.selectedfragmenttype === null){
             scope.err_msg = "Please select a Fragment";
           }
           else{
-            console.log(scope.selectedfragmenttype);
             serverFactory.getitem(scope.selectedfragmenttype.id,'pagefragment',scope,'pagefragmentgot');
             // first save the page fragment and then save the fragment to page
             // serverFactory.saveitemdetails($scope,$scope.pagepropertiesdata,"pagefragment","pagefragmentsaved");
@@ -49,7 +47,7 @@ angular.module('thebarraudsApp')
           serverFactory.saveitemdetails(scope,pagefragmentData,"pagefragment","pagefragmentsaved");
         }
         scope.pagefragmentsaved = function(data){
-          scope.addfragmenttopage(data);
+          scope.addfragmenttopage({selectedpagefragment:data});
           $("#addfragmentsModal").modal('hide');
         }
       }
