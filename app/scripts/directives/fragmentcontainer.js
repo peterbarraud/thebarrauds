@@ -12,22 +12,22 @@ angular.module('thebarraudsApp')
       restrict: 'A',
       templateUrl: 'views/fragmentcontainer.html',
       link: function(scope, elem, attrs) {
-        var el = $compile( "<b>poker</b>" )( scope );
-        elem.append( el );
-        serverFactory.getpagelist(scope,'managepagelist');
-        scope.managepagelist = function(data){
-          scope.pages = data.Items;
-        };
-        scope.pageselect = function(page){
-          scope.listitemdata = page;
-        };
-        scope.pagelistdirective = {
-          pagelistupdated: function(){
-            serverFactory.getpagelist(scope,'managepagelist');
-          },
-        };
+        var fragmenthtml = $compile( attrs.pagefragmenthtml )( scope );
+        var modal_id = '';
+        // alert(attrs.pagefragmentid);
+        elem.append( fragmenthtml );
+        serverFactory.getitem(attrs.pagefragmentid,'pagefragment',scope,'pagefragmentgot');
 
+        scope.pagefragmentgot = function(data){
+          var fragmenttype = $compile( '<' + data.fragmenttype[0].name + ' pagefragmenthtml="' + attrs.pagefragmenthtml + '"></' + data.fragmenttype[0].name + '>' )( scope );
+          modal_id = data.fragmenttype[0].name + '-modal';
+          elem.append( fragmenttype );
+        }
 
+        scope.editFragment = function(){
+          $('#' + modal_id).modal();
+          // alert(0);
+        };
       }
     };
   });

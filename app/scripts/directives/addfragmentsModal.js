@@ -52,6 +52,7 @@ angular.module('thebarraudsApp')
           var pagefragmentData = data;
           var newfragmentpos = scope.addfragmentsdir.newfragmentrelatedpos === 'a' ? scope.addfragmentsdir.currentfragmentpos + 1 : scope.addfragmentsdir.currentfragmentpos;
           pagefragmentData.position = newfragmentpos;
+          pagefragmentData.html = '<div>Click Edit in the drop-down menu to Get started...</div>';
           pagefragmentData.title = scope.selectedfragmenttype.title;
           pagefragmentData.fragmenttype.push(scope.selectedfragmenttype);
           serverFactory.saveitemdetails(scope,pagefragmentData,"pagefragment","pagefragmentsaved");
@@ -60,7 +61,7 @@ angular.module('thebarraudsApp')
         scope.pagefragmentsaved = function(data){
           scope.addfragmenttopage({selectedpagefragment:data});
           $("#addfragmentsModal").modal('hide');
-        }
+        };
       }
     };
   });

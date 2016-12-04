@@ -16,7 +16,7 @@ angular.module('thebarraudsApp')
       },
       replace:true,
       templateUrl: 'views/pageList.html',
-      link: function(scope, elem, attrs) {
+      link: function(scope/*, elem, attrs*/) {
         serverFactory.getpagelist(scope,'managepagelist');
         scope.managepagelist = function(data){
           scope.pages = data.Items;
