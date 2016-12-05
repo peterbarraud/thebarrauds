@@ -6,19 +6,11 @@
         <h4 class="modal-title" id="myModalLabel">Rich Text</h4>
       </div>
       <div class="modal-body">
-        <p>
-          ppp
-        </p>
-        <textarea class="form-control" rows="3"></textarea>
-        <!-- <div class="list-group">
-          <a href="" ng-click="selectFragmentType(fragmenttype.name)" class="list-group-item" ng-repeat="fragmenttype in fragmenttypes.Items">
-            {{fragmenttype.title}}
-          </a>
-        </div> -->
+        <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" ng-click="addnewfragment()">OK</button>
+        <button type="button" class="btn btn-primary" ng-click="save()">OK</button>
       </div>
     </div>
   </div>

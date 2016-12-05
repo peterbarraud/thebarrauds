@@ -12,15 +12,21 @@ angular.module('thebarraudsApp')
       restrict: 'E',
       replace:false,
       scope: {
-        irichtext: '=',
+        savefragment: '&',
       },
       templateUrl: 'views/richText.html',
 
       link: function(scope, elem, attrs) {
         var fragmenthtml = $compile( attrs.pagefragmenthtml )( scope );
-        elem.append( fragmenthtml );
-        // console.log(attrs.pagefragmenthtml);
+        scope.tinymceModel = attrs.pagefragmenthtml;
 
+        scope.tinymceOptions = {
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        };
+        scope.save = function(){
+          scope.savefragment({fragmenthtml:scope.tinymceModel});
+        }
       }
     };
   });
