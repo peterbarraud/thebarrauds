@@ -12,15 +12,19 @@ angular.module('thebarraudsApp')
       restrict: 'A',
       templateUrl: 'views/fragmentcontainer.html',
       link: function(scope, elem, attrs) {
+
         var fragmenthtml = $compile( attrs.pagefragmenthtml )( scope );
         var modal_id = '';
+        var pagefragment = null;
         // alert(attrs.pagefragmentid);
-        elem.append( fragmenthtml );
+        scope.boonga = attrs.pagefragmenthtml;
+        // elem.append( attrs.pagefragmenthtml );
         serverFactory.getitem(attrs.pagefragmentid,'pagefragment',scope,'pagefragmentgot');
 
         scope.pagefragmentgot = function(data){
-          var fragmenttype = $compile( '<' + data.fragmenttype[0].name + ' pagefragmenthtml="' + attrs.pagefragmenthtml + '" savefragment="savefragment(fragmenthtml)"></' + data.fragmenttype[0].name + '>' )( scope );
-          modal_id = data.fragmenttype[0].name + '-modal';
+          pagefragment = data;
+          var fragmenttype = $compile( '<' + pagefragment.fragmenttype[0].name + ' pagefragmenthtml="' + attrs.pagefragmenthtml + '" savefragment="savefragment(fragmenthtml)"></' + pagefragment.fragmenttype[0].name + '>' )( scope );
+          modal_id = pagefragment.fragmenttype[0].name + '-modal';
           elem.append( fragmenttype );
         }
 
@@ -31,8 +35,14 @@ angular.module('thebarraudsApp')
 
         scope.savefragment = function(fragmenthtml){
           $('#' + modal_id).modal('hide');
-          console.log(fragmenthtml);
+          pagefragment.html = fragmenthtml;
+          serverFactory.saveitemdetails(scope,pagefragment,"pagefragment","itemDetailsSaved");
         };
+
+        scope.itemDetailsSaved = function(data){
+          scope.boonga = data.html;
+          console.log(data);
+        }
 
       }
     };
