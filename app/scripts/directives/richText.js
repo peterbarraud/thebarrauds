@@ -12,7 +12,7 @@ angular.module('thebarraudsApp')
       restrict: 'E',
       replace:false,
       scope: {
-        savefragment: '&',
+        savefragmenthtml: '&',
       },
       templateUrl: 'views/richText.html',
 
@@ -25,7 +25,7 @@ angular.module('thebarraudsApp')
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
         };
         scope.save = function(){
-          scope.savefragment({fragmenthtml:scope.tinymceModel});
+          scope.savefragmenthtml({fragmenthtml:scope.tinymceModel});
         }
       }
     };

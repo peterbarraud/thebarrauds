@@ -23,7 +23,7 @@ angular.module('thebarraudsApp')
 
         scope.pagefragmentgot = function(data){
           pagefragment = data;
-          var fragmenttype = $compile( '<' + pagefragment.fragmenttype[0].name + ' pagefragmenthtml="' + attrs.pagefragmenthtml + '" savefragment="savefragment(fragmenthtml)"></' + pagefragment.fragmenttype[0].name + '>' )( scope );
+          var fragmenttype = $compile( '<' + pagefragment.fragmenttype[0].name + ' pagefragmenthtml="' + attrs.pagefragmenthtml + '" savefragmenthtml="savefragmenthtml(fragmenthtml)"></' + pagefragment.fragmenttype[0].name + '>' )( scope );
           modal_id = pagefragment.fragmenttype[0].name + '-modal';
           elem.append( fragmenttype );
         }
@@ -33,7 +33,7 @@ angular.module('thebarraudsApp')
           // alert(0);
         };
 
-        scope.savefragment = function(fragmenthtml){
+        scope.savefragmenthtml = function(fragmenthtml){
           $('#' + modal_id).modal('hide');
           pagefragment.html = fragmenthtml;
           serverFactory.saveitemdetails(scope,pagefragment,"pagefragment","itemDetailsSaved");
