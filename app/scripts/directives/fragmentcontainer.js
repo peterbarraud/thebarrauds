@@ -11,6 +11,9 @@ angular.module('thebarraudsApp')
     return {
       restrict: 'A',
       templateUrl: 'views/fragmentcontainer.html',
+      scope: {
+        newfragment:'&',
+      },
       link: function(scope, elem, attrs) {
 
         var fragmenthtml = $compile( attrs.pagefragmenthtml )( scope );
@@ -42,6 +45,10 @@ angular.module('thebarraudsApp')
         scope.itemDetailsSaved = function(data){
           scope.boonga = data.html;
           console.log(data);
+        };
+
+        scope.addfragment = function(newfragmentrelatedpos){
+          scope.newfragment({currentfragmentpos:attrs.currentfragmentpos,newfragmentrelatedpos:newfragmentrelatedpos});
         }
 
       }

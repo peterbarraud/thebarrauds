@@ -48,7 +48,7 @@
           </td>
         </tr>
         <tr ng-repeat="pagefragment in pagepropertiesdata.pagefragment">
-          <td fragment-container fragmentpos="{{pagefragment.position}}" pagefragmenthtml="{{pagefragment.html}}" pagefragmentid="{{pagefragment.id}}">
+          <td fragment-container pagefragmenthtml="{{pagefragment.html}}" pagefragmentid="{{pagefragment.id}}" currentfragmentpos="{{pagefragment.position}}" newfragment="newfragment(currentfragmentpos,newfragmentrelatedpos)">
           </td>
         </tr>
       </table>
